@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luke Russell — Visual & Strategy Specialist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --off-black: #111111;
+    --charcoal: #1c1c1c;
+    --red: #c8001e;
+    --red-dim: #8a0014;
+    --white: #f5f3ef;
+    --grey: #888;
+    --light-grey: #d0cec9;
+    --border: rgba(245,243,239,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--red);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--white);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.35s cubic-bezier(0.23,1,0.32,1), width 0.3s, height 0.3s;
+    transform: translate(-50%, -50%);
+    opacity: 0.5;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 48px;
+    mix-blend-mode: difference;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  .nav-logo span { color: var(--red); font-style: normal; }
+
+  .nav-links {
+    display: flex; gap: 36px; list-style: none;
+  }
+  .nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(56px, 7vw, 100px);
+    font-weight: 900;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s forwards;
+  }
+
+  .hero-title .italic { font-style: italic; color: var(--red); }
+
+  .hero-desc {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--light-grey);
+    max-width: 380px;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.7s forwards;
+  }
+
+  .hero-cta {
+    display: flex; gap: 20px; align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s forwards;
+  }
+
+  .btn-primary {
+    background: var(--red);
+    color: var(--white);
+    padding: 14px 32px;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { background: #e0001f; transform: translateY(-2px); }
+
+  .btn-outline {
+    color: var(--white);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+  .btn-outline:hover { opacity: 1; }
+  .btn-outline::after {
+    content: '';
+    width: 28px; height: 1px;
+    background: var(--white);
+    transition: width 0.3s;
+  }
+  .btn-outline:hover::after { width: 44px; }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-img-main {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    opacity: 0;
+    animation: fadeIn 1.2s 0.2s forwards;
+    filter: grayscale(20%) contrast(1.05);
+  }
+
+  .hero-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--black) 0%, transparent 40%);
+  }
+
+  .hero-scroll-indicator {
+    position: absolute;
+    bottom: 48px;
+    right: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    animation: fadeIn 1s 1.5s forwards;
+  }
+  .hero-scroll-indicator span {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+    color: var(--grey);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--red), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* MARQUEE */
+  .marquee-section {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    padding: 18px 0;
+    background: var(--charcoal);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    white-space: nowrap;
+    animation: marquee 25s linear infinite;
+  }
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 32px;
+    padding: 0 32px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+  .marquee-item .dot {
+    width: 4px; height: 4px;
+    background: var(--red);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ABOUT */
+  .about {
+    padding: 140px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .about-left { position: relative; }
+
+  .about-img-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 8px;
+    height: 580px;
+  }
+
+  .about-img-grid img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(15%) contrast(1.05);
+    transition: filter 0.4s;
+  }
+  .about-img-grid img:hover { filter: grayscale(0%) contrast(1.1); }
+  .about-img-grid .span-tall { grid-row: span 2; }
+
+  .about-stat-badge {
+    position: absolute;
+    bottom: -24px;
+    right: -24px;
+    background: var(--red);
+    padding: 28px 32px;
+    z-index: 2;
+  }
+  .about-stat-badge .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    display: block;
+  }
+  .about-stat-badge .label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.8;
+    margin-top: 4px;
+  }
+
+  .about-right { padding-left: 20px; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .section-label::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--red);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 32px;
+  }
+  .section-title .italic { font-style: italic; color: var(--red); }
+
+  .about-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--light-grey);
+    margin-bottom: 24px;
+  }
+
+  .about-tags {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    margin-top: 40px;
+  }
+  .tag {
+    border: 1px solid var(--border);
+    padding: 8px 18px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--grey);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .tag:hover { border-color: var(--red); color: var(--white); }
+
+  /* SERVICES */
+  .services {
+    padding: 120px 48px;
+    background: var(--off-black);
+  }
+
+  .services-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 80px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .service-card {
+    background: var(--off-black);
+    padding: 48px 40px;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--red);
+    transition: width 0.4s ease;
+  }
+  .service-card:hover { background: var(--charcoal); }
+  .service-card:hover::before { width: 100%; }
+
+  .service-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    font-weight: 900;
+    color: var(--charcoal);
+    line-height: 1;
+    margin-bottom: 24px;
+    transition: color 0.3s;
+  }
+  .service-card:hover .service-num { color: rgba(200,0,30,0.12); }
+
+  .service-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .service-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--grey);
+  }
+
+  .service-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 24px;
+  }
+  .service-tag {
+    background: rgba(200,0,30,0.1);
+    color: var(--red);
+    padding: 4px 12px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* WORK / GALLERY */
+  .work {
+    padding: 120px 48px;
+  }
+
+  .work-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 60px;
+  }
+
+  .gallery-masonry {
+    columns: 3;
+    column-gap: 12px;
+  }
+
+  .gallery-item {
+    break-inside: avoid;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+    cursor: none;
+  }
+
+  .gallery-item img {
+    width: 100%;
+    display: block;
+    filter: grayscale(10%) contrast(1.05);
+    transition: transform 0.6s cubic-bezier(0.23,1,0.32,1), filter 0.4s;
+  }
+  .gallery-item:hover img {
+    transform: scale(1.04);
+    filter: grayscale(0%) contrast(1.1);
+  }
+
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,10,10,0.7) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: flex-end;
+    padding: 24px;
+  }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+  .gallery-overlay-text {
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  /* OUTSIDER BRAND SECTION */
+  .brand-section {
+    padding: 120px 48px;
+    background: var(--charcoal);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .brand-imgs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .brand-imgs img {
+    width: 100%; aspect-ratio: 1;
+    object-fit: cover;
+    filter: grayscale(10%);
+    transition: filter 0.4s;
+  }
+  .brand-imgs img:hover { filter: grayscale(0%); }
+  .brand-imgs img:first-child { aspect-ratio: auto; grid-column: span 2; height: 280px; object-fit: cover; }
+
+  .brand-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    line-height: 1;
+  }
+  .brand-logo .out { color: var(--red); }
+  .brand-logo .sider { color: var(--white); }
+  .brand-logo .dot { color: var(--red); }
+
+  .brand-subtitle {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 32px;
+  }
+
+  .eco-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(200,0,30,0.3);
+    padding: 10px 20px;
+    margin-bottom: 32px;
+  }
+  .eco-badge span:first-child {
+    font-size: 16px;
+  }
+  .eco-badge span:last-child {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+
+  /* TESTIMONIALS */
+  .testimonials {
+    padding: 120px 48px;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+  }
+
+  .testimonial-card {
+    border: 1px solid var(--border);
+    padding: 40px;
+    position: relative;
+  }
+  .testimonial-card::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 80px;
+    color: var(--red);
+    opacity: 0.3;
+    position: absolute;
+    top: 16px; left: 32px;
+    line-height: 1;
+  }
+
+  .testimonial-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--light-grey);
+    margin-bottom: 32px;
+    margin-top: 32px;
+  }
+
+  .testimonial-author {
+    display: flex; align-items: center; gap: 16px;
+  }
+  .author-avatar {
+    width: 40px; height: 40px;
+    background: var(--charcoal);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--red);
+    flex-shrink: 0;
+  }
+  .author-name {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .author-role {
+    font-size: 12px;
+    color: var(--grey);
+    margin-top: 2px;
+  }
+
+  /* CONTACT */
+  .contact {
+    padding: 140px 48px;
+    background: var(--off-black);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: start;
+  }
+
+  .contact-left .section-title { margin-bottom: 24px; }
+
+  .contact-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--light-grey);
+    margin-bottom: 48px;
+  }
+
+  .contact-details { display: flex; flex-direction: column; gap: 20px; }
+
+  .contact-item {
+    display: flex; align-items: center; gap: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .contact-icon {
+    width: 40px; height: 40px;
+    background: rgba(200,0,30,0.1);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 16px;
+  }
+  .contact-item-label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 4px;
+  }
+  .contact-item-value {
+    font-size: 15px;
+    color: var(--white);
+  }
+
+  .contact-right {
+    padding-top: 8px;
+  }
+
+  .form-group {
+    margin-bottom: 28px;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 10px;
+  }
+
+  .form-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    padding: 12px 0;
+    outline: none;
+    transition: border-color 0.2s;
+    cursor: none;
+  }
+  .form-input:focus { border-bottom-color: var(--red); }
+  .form-input::placeholder { color: var(--grey); opacity: 0.5; }
+
+  textarea.form-input { resize: none; height: 100px; }
+
+  .form-submit {
+    background: var(--red);
+    color: var(--white);
+    border: none;
+    padding: 16px 48px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: background 0.2s, transform 0.2s;
+    margin-top: 12px;
+  }
+  .form-submit:hover { background: #e0001f; transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    padding: 48px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-style: italic;
+    color: var(--white);
+  }
+  .footer-logo span { color: var(--red); font-style: normal; }
+
+  .footer-links {
+    display: flex; gap: 32px; list-style: none;
+  }
+  .footer-links a {
+    color: var(--grey);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--white); }
+
+  .footer-copy {
+    font-size: 12px;
+    color: var(--grey);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.23,1,0.32,1), transform 0.8s cubic-bezier(0.23,1,0.32,1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Noise texture overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 9997;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 120px 24px 60px; }
+    .about, .brand-section, .contact { grid-template-columns: 1fr; gap: 48px; padding: 80px 24px; }
+    .services { padding: 80px 24px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .services-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+    .work { padding: 80px 24px; }
+    .gallery-masonry { columns: 2; }
+    .testimonials { padding: 80px 24px; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 24px; text-align: center; padding: 32px 24px; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+    .about-stat-badge { right: 0; }
+    .brand-imgs img:first-child { height: 200px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Navigation -->
+<nav>
+  <a href="#" class="nav-logo"><span>L</span>uke Russell</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#outsider">Outsider</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Visual & Strategy Specialist</p>
+    <h1 class="hero-title">
+      Luke<br>
+      <span class="italic">Russell.</span>
+    </h1>
+    <p class="hero-desc">
+      Content • Design • Strategy. Crafting visual narratives for corporate, youth-sector, events, weddings and more — from the West Midlands to worldwide.
+    </p>
+    <div class="hero-cta">
+      <a href="#work" class="btn-primary">View Work</a>
+      <a href="#contact" class="btn-outline">Get in touch</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img class="hero-img-main" src="623852512_18104415331766386_4621561327323135047_n.jpg" alt="Luke Russell" onerror="this.src='625136757_18195047764338367_6519986203527075864_n.jpg'">
+    <div class="hero-img-overlay"></div>
+    <div class="hero-scroll-indicator">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item"><span class="dot"></span><span>Content Creation</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>Visual Strategy</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>Wedding Photography</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>Event Videography</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>Brand Design</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>Youth Sector</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>Corporate</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>West Midlands</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>Worldwide</span></div>
+    <!-- Duplicate for seamless loop -->
+    <div class="marquee-item"><span class="dot"></span><span>Content Creation</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>Visual Strategy</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>Wedding Photography</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>Event Videography</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>Brand Design</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>Youth Sector</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>Corporate</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>West Midlands</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>Worldwide</span></div>
+  </div>
+</div>
+
+<!-- About -->
+<section class="about" id="about">
+  <div class="about-left reveal">
+    <div class="about-img-grid">
+      <img class="span-tall" src="625136757_18195047764338367_6519986203527075864_n.jpg" alt="Luke at work" onerror="this.style.background='#1c1c1c'">
+      <img src="618710114_18067720664184331_4426072475702188667_n.jpg" alt="Event" onerror="this.style.background='#1c1c1c'">
+      <img src="619844213_18084731303153420_7724319158238148575_n.jpg" alt="Wedding" onerror="this.style.background='#1c1c1c'">
+    </div>
+    <div class="about-stat-badge">
+      <span class="num">200+</span>
+      <span class="label">Projects Delivered</span>
+    </div>
+  </div>
+  <div class="about-right reveal">
+    <div class="section-label">About Me</div>
+    <h2 class="section-title">
+      Telling stories<br>through <span class="italic">visuals.</span>
+    </h2>
+    <p class="about-text">
+      I'm Luke Russell — a visual and strategy specialist based in the West Midlands. I work across content creation, design, and strategic communications to help brands and individuals look and feel exceptional.
+    </p>
+    <p class="about-text">
+      From intimate weddings to large-scale corporate events, from youth sector campaigns to international productions — I bring a cinematic eye and a strategic mind to everything I create.
+    </p>
+    <div class="about-tags">
+      <span class="tag">Photography</span>
+      <span class="tag">Videography</span>
+      <span class="tag">Brand Strategy</span>
+      <span class="tag">Content Direction</span>
+      <span class="tag">Social Media</span>
+      <span class="tag">Event Coverage</span>
+      <span class="tag">Wedding Films</span>
+      <span class="tag">Youth Sector</span>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="services" id="services">
+  <div class="services-header">
+    <div>
+      <div class="section-label reveal">What I Do</div>
+      <h2 class="section-title reveal">Services that <span class="italic">move</span> things.</h2>
+    </div>
+    <a href="#contact" class="btn-outline reveal">Work with me</a>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <h3 class="service-title">Content & Photography</h3>
+      <p class="service-desc">High-impact visual content — from still photography to cinematic video. I capture moments that define brands and tell authentic stories.</p>
+      <div class="service-tags">
+        <span class="service-tag">Photography</span>
+        <span class="service-tag">Video</span>
+        <span class="service-tag">Editing</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <h3 class="service-title">Strategy & Design</h3>
+      <p class="service-desc">Visual identity, social strategy, and content direction that connects. I build cohesive brand worlds that resonate with your audience.</p>
+      <div class="service-tags">
+        <span class="service-tag">Brand Design</span>
+        <span class="service-tag">Strategy</span>
+        <span class="service-tag">Social</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <h3 class="service-title">Events & Weddings</h3>
+      <p class="service-desc">Corporate events, live shows, and weddings — I document the energy, emotion, and detail of your most important moments.</p>
+      <div class="service-tags">
+        <span class="service-tag">Events</span>
+        <span class="service-tag">Weddings</span>
+        <span class="service-tag">Corporate</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Work Gallery -->
+<section class="work" id="work">
+  <div class="work-header">
+    <div>
+      <div class="section-label reveal">Portfolio</div>
+      <h2 class="section-title reveal">Selected <span class="italic">work.</span></h2>
+    </div>
+    <a href="#contact" class="btn-outline reveal">Commission a project</a>
+  </div>
+  <div class="gallery-masonry reveal">
+    <div class="gallery-item">
+      <img src="623852512_18104415331766386_4621561327323135047_n.jpg" alt="Work" onerror="this.style.display='none'">
+      <div class="gallery-overlay"><span class="gallery-overlay-text">Event Coverage</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="636225712_18452081440098351_5627547792468143571_n.webp" alt="Work" onerror="this.style.display='none'">
+      <div class="gallery-overlay"><span class="gallery-overlay-text">DJ Set</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="618710114_18067720664184331_4426072475702188667_n.jpg" alt="Wedding" onerror="this.style.display='none'">
+      <div class="gallery-overlay"><span class="gallery-overlay-text">Wedding Film</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="624071640_18084547672944866_1809737269618085374_n.webp" alt="Work" onerror="this.style.display='none'">
+      <div class="gallery-overlay"><span class="gallery-overlay-text">Production</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="619844213_18084731303153420_7724319158238148575_n.jpg" alt="Work" onerror="this.style.display='none'">
+      <div class="gallery-overlay"><span class="gallery-overlay-text">Corporate</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="624907575_18051236813465521_7435838177860069893_n.webp" alt="Work" onerror="this.style.display='none'">
+      <div class="gallery-overlay"><span class="gallery-overlay-text">Content</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="625136757_18195047764338367_6519986203527075864_n.jpg" alt="Work" onerror="this.style.display='none'">
+      <div class="gallery-overlay"><span class="gallery-overlay-text">Portrait</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="626279854_18112063918653872_8478914913585845219_n.webp" alt="Work" onerror="this.style.display='none'">
+      <div class="gallery-overlay"><span class="gallery-overlay-text">Live Event</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Outsider Brand Section -->
+<section class="brand-section" id="outsider">
+  <div class="brand-imgs reveal">
+    <img src="626279854_18112063918653872_8478914913585845219_n.webp" alt="Outsider hoodie" onerror="this.style.background='#1c1c1c'">
+    <img src="624071640_18084547672944866_1809737269618085374_n.webp" alt="Outsider t-shirt" onerror="this.style.background='#1c1c1c'">
+    <img src="624907575_18051236813465521_7435838177860069893_n.webp" alt="Outsider worn" onerror="this.style.background='#1c1c1c'">
+  </div>
+  <div class="reveal">
+    <div class="section-label">The Brand</div>
+    <div class="brand-logo">
+      <span class="out">out</span><span class="sider">sider</span><span class="dot">.</span>
+    </div>
+    <p class="brand-subtitle">Re-define Life — outsider.uk</p>
+    <div class="eco-badge">
+      <span>🌿</span>
+      <span>100% Eco-Friendly Clothing Brand</span>
+    </div>
+    <p class="about-text">
+      Outsider was born from a simple idea: be yourself, re-define life on your own terms. A 100% eco-friendly UK clothing brand built on authenticity, creativity, and the spirit of those who walk their own path.
+    </p>
+    <p class="about-text">
+      Every piece was made with the planet in mind — because looking good and doing good aren't mutually exclusive.
+    </p>
+    <a href="https://instagram.com/outsider.uk" target="_blank" class="btn-primary" style="display:inline-block; margin-top:8px;">Follow @outsider.uk</a>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials">
+  <div class="section-label reveal">Kind Words</div>
+  <h2 class="section-title reveal">What clients <span class="italic">say.</span></h2>
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal">
+      <p class="testimonial-text">Luke has an incredible eye for storytelling. Our wedding film was beyond anything we could have imagined — he captured every emotion perfectly.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">S</div>
+        <div>
+          <div class="author-name">Savannah & Calum</div>
+          <div class="author-role">Wedding Clients</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <p class="testimonial-text">The event coverage was exceptional. Luke understood our brand instantly and delivered visuals that elevated our entire campaign.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">O</div>
+        <div>
+          <div class="author-name">Outsider Creative</div>
+          <div class="author-role">Corporate Client</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <p class="testimonial-text">Working with Luke transformed how we communicate with young people. His strategic thinking combined with his visual talent is rare.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">Y</div>
+        <div>
+          <div class="author-name">Youth Sector Partner</div>
+          <div class="author-role">Non-Profit Organisation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact" id="contact">
+  <div class="contact-left">
+    <div class="section-label reveal">Contact</div>
+    <h2 class="section-title reveal">Let's make<br>something <span class="italic">great.</span></h2>
+    <p class="contact-text reveal">
+      Based in the West Midlands, available worldwide. Whether you need a wedding film, event coverage, brand strategy, or content direction — I'd love to hear about your project.
+    </p>
+    <div class="contact-details reveal">
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div>
+          <div class="contact-item-label">Location</div>
+          <div class="contact-item-value">West Midlands / Worldwide</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📸</div>
+        <div>
+          <div class="contact-item-label">Instagram</div>
+          <div class="contact-item-value">@outsidercreatives</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">✉️</div>
+        <div>
+          <div class="contact-item-label">Enquiries</div>
+          <div class="contact-item-value">DM via Instagram</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="contact-right reveal">
+    <form onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label class="form-label">Your Name</label>
+        <input type="text" class="form-input" placeholder="John Smith">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input type="email" class="form-input" placeholder="john@example.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Project Type</label>
+        <input type="text" class="form-input" placeholder="Wedding / Event / Brand / Other">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tell me about your project</label>
+        <textarea class="form-input" placeholder="Describe what you're looking for..."></textarea>
+      </div>
+      <button type="submit" class="form-submit">Send Message</button>
+    </form>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-logo"><span>L</span>uke Russell</div>
+  <ul class="footer-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#outsider">Outsider</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 Luke Russell. All rights reserved.</p>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx - 5}px, ${my - 5}px)`;
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .gallery-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      ring.style.width = '56px';
+      ring.style.height = '56px';
+      ring.style.borderColor = 'var(--red)';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '36px';
+      ring.style.height = '36px';
+      ring.style.borderColor = 'var(--white)';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  reveals.forEach(r => observer.observe(r));
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = 'Message Sent ✓';
+    btn.style.background = '#1a6e3a';
+    setTimeout(() => {
+      btn.textContent = 'Send Message';
+      btn.style.background = '';
+    }, 3000);
+  }
+
+  // Stagger reveal children in services grid
+  document.querySelectorAll('.service-card').forEach((card, i) => {
+    card.style.transitionDelay = `${i * 0.1}s`;
+  });
+  document.querySelectorAll('.testimonial-card').forEach((card, i) => {
+    card.style.transitionDelay = `${i * 0.12}s`;
+  });
+</script>
+</body>
+</html>
